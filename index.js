@@ -1,50 +1,46 @@
-//TODO docs,module,async,in-place bignum ops,no/min alloc
-
-const ntoa=(n,o,d)=>{
-  const a=Array(o-1)
-  for(let i=2;i<=o;){
-    const m=d(n,i)
-    a[i++-2]=m.m
-    n=m.d//TODO wasteful last loop
+const ntoa=(n,amax,divmod)=>{
+  const a=Array(amax-1)
+  for(let divisor=2;divisor<=amax;++divisor){
+    const dm=divmod(n,divisor)
+    a[divisor-2]=dm.mod
+    n=dm.div
   }
   return a
 }
-const aton=(a,c,f)=>{
-  let i=a.length-1,n=c(a[i])
-  while(i)n=f(n,--i+2,a[i])
+const aton=(a,nctor,muladd)=>{
+  let i=a.length-1,n=nctor(a[i])
+  while(i--)n=muladd(n,i+2,a[i])
   return n
 }
 const atop=(a,p)=>{
-  {
-    let i=a.length
-    if(!p)p=Array.from(Array(i+1),(v,k)=>{return k})
-    {
-      const l=i-1
-      while(i){
-        const t=p[l+1-(--i)],j=l+1-i-a[l-i]
-        p[l+1-i]=p[j]
-        p[j]=t
-      }
-    }
+  const alen=a.length
+  if(!p)p=Array.from(Array(alen+1),(_,i)=>{return i})
+  for(let i=0;i<alen;){
+    const t=p[i],j=i-a[++i]
+    p[i]=p[j]
+    p[j]=t
   }
   return p
 }
 const ptoa=p=>{
-  const l=p.length,q=Array(l),m=l-1,a=Array(m),o=m-1
-  {
-    let i=l
-    while(i)q[p[--i]]=i
-    while(i<m)a[o-i]=m-(q[p[q[m-i]]=p[m-i]]=q[m-i])-i++
-  }
+  const plen=p.length,indexof=Array(plen),alen=plen-1,a=Array(alen)
+  for(let i=0;i<plen;++i)indexof[p[i]]=i
+  for(let i=alen;i;--i)a[i-1]=i-(indexof[p[indexof[i]]=p[i]]=indexof[i])
   return a
 }
-const test=o=>{
-  for(let n=2,f=2;n<8;f*=++n)for(let i=0;i<f;++i)
-    if(aton(
-      ptoa(atop(ntoa(i,n,(n,d)=>{return{d:Math.trunc(n/d),m:n%d}})))
-      ,n=>{return n}
-      ,(n,m,a)=>{return n*m+a}
-    )!==i)
-      return o(i+' (n='+n+')')
-  o('pass')
-}
+const test=(max,onpass,onfail)=>{
+  for(let n=2,factorial=2;n<=max;factorial*=++n)
+    for(let val=0;val<factorial;++val)
+      if(val!==aton(
+        ptoa(atop(ntoa(val,n,
+          (n,d)=>{return{
+              div:Math.trunc(n/d),
+              mod:n%d
+          }}
+        ))),
+        n=>{return n},
+        (n,m,a)=>{return n*m+a}
+      ))
+        return onfail({val,n})
+  onpass()
+}test(8,()=>{console.log('pass')},console.log)
