@@ -1,26 +1,22 @@
 //TODO async,in-place bignum ops,no/min alloc
 
-const ntoa=(n/*[0,_!)*/,l,d,m/*%2*/)=>{
-  const a=Array(l-1)
-  while(l>2){
-    const m=d(n,l)
-    a[l---2]=m.m
-    n=m.d
+const ntoa=(n,o,d)=>{
+  const a=Array(o-1)
+  for(let i=2;i<=o;){
+    const m=d(n,i)
+    a[i++-2]=m.m
+    n=m.d//TODO wasteful last loop
   }
-  a[0]=m(n) 
   return a
 }
-const aton=(a,c/*from 0|1*/,f/**x+[0,x)*/)=>{
-  let n=c(a[0])
-  {
-    const l=a.length
-    for(let i=1;i<l;)n=f(n,i+2,a[i++])
-  }
+const aton=(a,c,f)=>{
+  let i=a.length-1,n=c(a[i])
+  while(i)n=f(n,--i+2,a[i])
   return n
 }
 const atop=a=>{
-  let i=a.length-1
-  const p=Array.from(Array(i),(v,k)=>{return k}),l=i-1
+  let i=a.length
+  const p=Array.from(Array(i+1),(v,k)=>{return k}),l=i-1
   while(i){
     const t=p[--i],j=i+a[l-i]
     p[i]=p[j]
@@ -33,10 +29,17 @@ const ptoa=p=>{
   {
     let i=l
     while(i)q[p[--i]]=i
-    while(i<m)a[o-i]=(p[q[p[i]]=q[i]]=p[i])-i
+    while(i<m)a[o-i]=(q[p[q[i]]=p[i]]=q[i])-i++
   }
   return a
 }
-const tests=o=>{
-  
+const test=o=>{
+  for(let n=2,f=2;n<8;f*=++n)for(let i=0;i<f;++i)
+    if(aton(
+      ptoa(atop(ntoa(i,n,(n,d)=>{return{d:Math.trunc(n/d),m:n%d}})))
+      ,n=>{return n}
+      ,(n,m,a)=>{return n*m+a}
+    )!==i)
+      return o(i+' (n='+n+')')
+  o('pass')
 }
