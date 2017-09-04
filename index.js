@@ -1,4 +1,4 @@
-//TODO async,in-place bignum ops,no/min alloc
+//TODO docs,module,async,in-place bignum ops,no/min alloc
 
 const ntoa=(n,o,d)=>{
   const a=Array(o-1)
@@ -14,13 +14,18 @@ const aton=(a,c,f)=>{
   while(i)n=f(n,--i+2,a[i])
   return n
 }
-const atop=a=>{
-  let i=a.length
-  const p=Array.from(Array(i+1),(v,k)=>{return k}),l=i-1
-  while(i){
-    const t=p[--i],j=i+a[l-i]
-    p[i]=p[j]
-    p[j]=t
+const atop=(a,p)=>{
+  {
+    let i=a.length
+    if(!p)p=Array.from(Array(i+1),(v,k)=>{return k})
+    {
+      const l=i-1
+      while(i){
+        const t=p[--i],j=i+a[l-i]
+        p[i]=p[j]
+        p[j]=t
+      }
+    }
   }
   return p
 }
