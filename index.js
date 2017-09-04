@@ -21,8 +21,8 @@ const atop=(a,p)=>{
     {
       const l=i-1
       while(i){
-        const t=p[--i],j=i+a[l-i]
-        p[i]=p[j]
+        const t=p[l+1-(--i)],j=l+1-i-a[l-i]
+        p[l+1-i]=p[j]
         p[j]=t
       }
     }
@@ -34,7 +34,7 @@ const ptoa=p=>{
   {
     let i=l
     while(i)q[p[--i]]=i
-    while(i<m)a[o-i]=(q[p[q[i]]=p[i]]=q[i])-i++
+    while(i<m)a[o-i]=m-(q[p[q[m-i]]=p[m-i]]=q[m-i])-i++
   }
   return a
 }
