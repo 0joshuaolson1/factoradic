@@ -15,8 +15,8 @@ const aton=(a,nctor,muladd)=>{
 const atop=(a,p)=>{
   const alen=a.length
   if(!p)p=Array.from(Array(alen+1),(_,i)=>{return i})
-  for(let i=0;i<alen;){
-    const t=p[i],j=i-a[++i]
+  for(let i=1;i<=alen;++i){
+    const j=i-a[i-1],t=p[i]
     p[i]=p[j]
     p[j]=t
   }
@@ -43,4 +43,4 @@ const test=(max,onpass,onfail)=>{
       ))
         return onfail({val,n})
   onpass()
-}test(8,()=>{console.log('pass')},console.log)
+}
