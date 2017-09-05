@@ -1,0 +1,34 @@
+{
+  "name": "factoradic",
+  "version": "1.0.0",
+  "description": "Invertible transformations on permutation representations, including an RNG-free in-place Fisher-Yates-Knuth shuffle",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0joshuaolson1/factoradic.git"
+  },
+  "keywords": [
+    "base",
+    "factoradic",
+    "factorial",
+    "Fisher-Yates",
+    "Fisher-Yates-Knuth",
+    "in-place",
+    "Knuth",
+    "number",
+    "permute",
+    "permutation",
+    "permutations",
+    "shuffle",
+    "system"
+  ],
+  "author": "Joshua Olson",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/0joshuaolson1/factoradic/issues"
+  },
+  "homepage": "https://github.com/0joshuaolson1/factoradic#readme"
+}

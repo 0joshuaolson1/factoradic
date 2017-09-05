@@ -1,4 +1,4 @@
-const ntoa=(n,amax,divmod)=>{
+exports.ntoa=(n,amax,divmod)=>{
   const a=Array(amax-1)
   for(let divisor=2;divisor<=amax;++divisor){
     const dm=divmod(n,divisor)
@@ -7,12 +7,12 @@ const ntoa=(n,amax,divmod)=>{
   }
   return a
 }
-const aton=(a,nctor,muladd)=>{
+exports.aton=(a,nctor,muladd)=>{
   let i=a.length-1,n=nctor(a[i])
   while(i--)n=muladd(n,i+2,a[i])
   return n
 }
-const atop=(a,p)=>{
+exports.atop=(a,p)=>{
   const alen=a.length
   if(!p)p=Array.from(Array(alen+1),(_,i)=>{return i})
   for(let i=1;i<=alen;++i){
@@ -22,17 +22,17 @@ const atop=(a,p)=>{
   }
   return p
 }
-const ptoa=p=>{
+exports.ptoa=p=>{
   const plen=p.length,indexof=Array(plen),alen=plen-1,a=Array(alen)
   for(let i=0;i<plen;++i)indexof[p[i]]=i
   for(let i=alen;i;--i)a[i-1]=i-(indexof[p[indexof[i]]=p[i]]=indexof[i])
   return a
 }
-const test=(max,onpass,onfail)=>{
+exports.test=(max,onpass,onfail)=>{
   for(let n=2,factorial=2;n<=max;factorial*=++n)
     for(let val=0;val<factorial;++val)
-      if(val!==aton(
-        ptoa(atop(ntoa(val,n,
+      if(val!==exports.aton(
+        exports.ptoa(exports.atop(exports.ntoa(val,n,
           (n,d)=>{return{
               div:Math.trunc(n/d),
               mod:n%d
