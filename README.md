@@ -46,7 +46,7 @@ This ES6 Node package contains and exports four functions (and a test) providing
 
     (1) the array (not modified)
 
-    (2) the number type's constructor function given a JS uint less than the max radix
+    (2) the number type's constructor function given a JS uint `<` the max radix
 
     (3) the number type's multiply-then-add function
 
@@ -68,7 +68,7 @@ This ES6 Node package contains and exports four functions (and a test) providing
 
     (1) the mixed radix array (not modified)
 
-    (2) the array to permute in place (defaults to `[0, 1, 2...]`
+    (2) the array to permute in place (defaults to `[0, 1, 2...]`)
 
       - this is one element longer than the mixed radix array
 
