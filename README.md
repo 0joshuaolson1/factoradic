@@ -6,7 +6,7 @@ Apache 2.0 license
 
 This ES6 Node package contains and exports four functions (and a test) providing invertible transformations on permutation representations:
 
-- [`ntoa`](https://github.com/0joshuaolson1/factoradic/blob/master/index.js#L1) takes a permutation Number and returns its corresponding mixed radix (factorial number system) Array
+- [`ntoa`](https://github.com/0joshuaolson1/factoradic/blob/f6419dd8884b0a737b080d2b46e371223ec6b9c0/index.js#L3) takes a permutation Number and returns its corresponding mixed radix (factorial number system) Array
 
   - inputs:
 
@@ -40,7 +40,7 @@ This ES6 Node package contains and exports four functions (and a test) providing
 
     - e.g. `ntoa(5, 4, divmod)` -> `[1, 2, 0]`, where `1` is base 2 and `0` is base 4
 
-- [`aton`](https://github.com/0joshuaolson1/factoradic/blob/master/index.js#L10) takes a mixed radix Array and returns its corresponding permutation Number
+- [`aton`](https://github.com/0joshuaolson1/factoradic/blob/f6419dd8884b0a737b080d2b46e371223ec6b9c0/index.js#L12) takes a mixed radix Array and returns its corresponding permutation Number
 
   - inputs:
 
@@ -62,7 +62,7 @@ This ES6 Node package contains and exports four functions (and a test) providing
 
   - output: a uint
 
-- [`atop`](https://github.com/0joshuaolson1/factoradic/blob/master/index.js#L15) takes a mixed radix Array and optional array to permute in place and returns their corresponding Permutation
+- [`atop`](https://github.com/0joshuaolson1/factoradic/blob/f6419dd8884b0a737b080d2b46e371223ec6b9c0/index.js#L17) takes a mixed radix Array and optional array to permute in place and returns their corresponding Permutation
 
   - inputs:
 
@@ -76,7 +76,7 @@ This ES6 Node package contains and exports four functions (and a test) providing
 
   - output: the in-place Fisher-Yates-Knuth shuffled array (not a copy)
 
-- [`ptoa`](https://github.com/0joshuaolson1/factoradic/blob/master/index.js#L25) takes a Permutation of `[0, 1, 2...]` (will be modified) and returns its corresponding mixed radix Array
+- [`ptoa`](https://github.com/0joshuaolson1/factoradic/blob/f6419dd8884b0a737b080d2b46e371223ec6b9c0/index.js#L27) takes a Permutation of `[0, 1, 2...]` (will be modified) and returns its corresponding mixed radix Array
 
 - [`test`](https://github.com/0joshuaolson1/factoradic/blob/master/index.js#L31) tests that all four transformations are invertible, but read it yourself:
 
