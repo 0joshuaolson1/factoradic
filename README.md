@@ -78,7 +78,7 @@ This ES6 Node package contains and exports four functions (and a test) providing
 
 - [`ptoa`](https://github.com/0joshuaolson1/factoradic/blob/f6419dd8884b0a737b080d2b46e371223ec6b9c0/index.js#L27) takes a Permutation of `[0, 1, 2...]` (will be modified) and returns its corresponding mixed radix Array
 
-- [`test`](https://github.com/0joshuaolson1/factoradic/blob/master/index.js#L31) tests that all four transformations are invertible, but read it yourself:
+- [`test`](https://github.com/0joshuaolson1/factoradic/blob/master/index.js#L34) tests that all four transformations are invertible, but read it yourself:
 
   - for example code
 
