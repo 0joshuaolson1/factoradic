@@ -1,4 +1,6 @@
-exports.ntoa=(n,amax,divmod)=>{
+// exports={}
+
+exports.ntoa=(n,amax,divmod=(n,d)=>({div:Math.floor(n/d),mod:n%d}))=>{
   const a=Array(amax-1)
   for(let divisor=2;divisor<=amax;++divisor){
     const dm=divmod(n,divisor)
@@ -7,15 +9,15 @@ exports.ntoa=(n,amax,divmod)=>{
   }
   return a
 }
-exports.aton=(a,nctor,muladd)=>{
+exports.aton=(a,nctor=n=>n,muladd=(n,m,a)=>n*m+a)=>{
   let i=a.length-1,n=nctor(a[i])
   while(i--)n=muladd(n,i+2,a[i])
   return n
 }
 exports.atop=(a,p)=>{
-  const alen=a.length
-  if(!p)p=Array.from(Array(alen+1),(_,i)=>{return i})
-  for(let i=1;i<=alen;++i){
+  const plen=a.length+1
+  p=p||Array.from(Array(plen),(_,i)=>i)
+  for(let i=1;i<plen;++i){
     const j=i-a[i-1],t=p[i]
     p[i]=p[j]
     p[j]=t
@@ -28,19 +30,11 @@ exports.ptoa=p=>{
   for(let i=alen;i;--i)a[i-1]=i-(indexof[p[indexof[i]]=p[i]]=indexof[i])
   return a
 }
-exports.test=(max,onpass,onfail)=>{
+
+exports.test=(max,onpass=console.log('pass'),onfail=console.error)=>{
   for(let n=2,factorial=2;n<=max;factorial*=++n)
     for(let val=0;val<factorial;++val)
-      if(val!==exports.aton(
-        exports.ptoa(exports.atop(exports.ntoa(val,n,
-          (n,d)=>{return{
-              div:Math.trunc(n/d),
-              mod:n%d
-          }}
-        ))),
-        n=>{return n},
-        (n,m,a)=>{return n*m+a}
-      ))
+      if(val!==exports.aton(exports.ptoa(exports.atop(exports.ntoa(val,n)))))
         return onfail({val,n})
   onpass()
 }
