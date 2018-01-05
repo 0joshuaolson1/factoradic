@@ -16,7 +16,7 @@ exports.aton=(a,nctor=n=>n,muladd=(n,m,a)=>n*m+a)=>{
 }
 exports.atop=(a,p)=>{
   const plen=a.length+1
-  p=p||Array.from(Array(plen),(_,i)=>i)
+  p=p||Array.from(Array(plen).keys())
   for(let i=1;i<plen;++i){
     const j=i-a[i-1],t=p[i]
     p[i]=p[j]
