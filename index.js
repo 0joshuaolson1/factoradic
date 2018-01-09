@@ -6,8 +6,9 @@ function loop(i, end, body){
 }
 
 exports.ptoa = function(p){
-  var indexof = Array(p.length), a = Array(p.length-1);
+  var indexof = Array(p.length);
   p.forEach(function(val, i){indexof[val] = i;});
+  var a = Array(p.length-1);
   loop(a.length, 1, function(i){
     p[indexof[i]] = p[i];
     indexof[p[i]] = indexof[i];
@@ -16,8 +17,8 @@ exports.ptoa = function(p){
   return a;
 }
 exports.aton = function(a, zero, muladd){
-  muladd = muladd || function(n, m, a){return n*m + a;};
   var n = zero || 0;
+  muladd = muladd || function(n, m, a){return n*m + a;};
   loop(a.length+1, 2, function(radix){n = muladd(n, radix, a[radix-2]);});
   return n;
 }
@@ -42,21 +43,21 @@ exports.atop = function(a, p){
 }
 
 exports.pton = function(p, zero, muladd){
+  var n = zero || 0;
   muladd = muladd || function(n, m, a){return n*m + a;};
-  var n = zero || 0, indexof = Array(p.length), a = Array(p.length-1);
+  var indexof = Array(p.length);
   p.forEach(function(val, i){indexof[val] = i;});
-  loop(a.length, 1, function(i){
+  loop(p.length-1, 1, function(i){
     p[indexof[i]] = p[i];
     indexof[p[i]] = indexof[i];
     n = muladd(n, i+1, i-indexof[i]);
   });
   return n;
 }
-exports.ntop = function(n, maxRadix, divmod, p){
+exports.ntop = function(n, maxRadix, p, divmod){
   divmod = divmod || function(n, d){return {div:Math.floor(n/d), mod:n%d}};
   p = p || Array.from(Array(maxRadix).keys());
-  var a = Array(maxRadix-1);
-  loop(1, a.length, function(i){
+  loop(1, p.length-1, function(i){
     var dm = divmod(n, i+1);
     var j = i-dm.mod, temp = p[i];
     p[i] = p[j];
@@ -77,10 +78,11 @@ exports.test = function(maxMaxRadix, onpass, onfail){
       var a2 = exports.ntoa(n2, radix);
       var p2 = exports.atop(a2);
       var n3 = exports.pton(p.slice());
-      if(!failed && (failed = n!==n2)) (onfail || console.error)({
+      if(!failed && (failed = n!==n3)) (onfail || console.error)({
         maxRadix: radix,
         n: n,
         p: p,
+        a: a,
         n2: n2,
         a2: a2,
         p2: p2,
