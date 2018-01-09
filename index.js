@@ -1,40 +1,92 @@
-// exports={}
+// var exports = {};
 
-exports.ntoa=(n,amax,divmod=(n,d)=>({div:Math.floor(n/d),mod:n%d}))=>{
-  const a=Array(amax-1)
-  for(let divisor=2;divisor<=amax;++divisor){
-    const dm=divmod(n,divisor)
-    a[divisor-2]=dm.mod
-    n=dm.div
-  }
-  return a
-}
-exports.aton=(a,nctor=n=>n,muladd=(n,m,a)=>n*m+a)=>{
-  let i=a.length-1,n=nctor(a[i])
-  while(i--)n=muladd(n,i+2,a[i])
-  return n
-}
-exports.atop=(a,p)=>{
-  const plen=a.length+1
-  p=p||Array.from(Array(plen).keys())
-  for(let i=1;i<plen;++i){
-    const j=i-a[i-1],t=p[i]
-    p[i]=p[j]
-    p[j]=t
-  }
-  return p
-}
-exports.ptoa=p=>{
-  const plen=p.length,indexof=Array(plen),alen=plen-1,a=Array(alen)
-  for(let i=0;i<plen;++i)indexof[p[i]]=i
-  for(let i=alen;i;--i)a[i-1]=i-(indexof[p[indexof[i]]=p[i]]=indexof[i])
-  return a
+// inclusive bounds
+function loop(i, end, body){
+  for(var step = i<end ? 1 : -1; i-end != step; i += step) body(i);
 }
 
-exports.test=(max,onpass=console.log('pass'),onfail=console.error)=>{
-  for(let n=2,factorial=2;n<=max;factorial*=++n)
-    for(let val=0;val<factorial;++val)
-      if(val!==exports.aton(exports.ptoa(exports.atop(exports.ntoa(val,n)))))
-        return onfail({val,n})
-  onpass()
+exports.ptoa = function(p){
+  var indexof = Array(p.length), a = Array(p.length-1);
+  p.forEach(function(val, i){indexof[val] = i;});
+  loop(a.length, 1, function(i){
+    p[indexof[i]] = p[i];
+    indexof[p[i]] = indexof[i];
+    a[i-1] = i-indexof[i];
+  });
+  return a;
+}
+exports.aton = function(a, zero, muladd){
+  muladd = muladd || function(n, m, a){return n*m + a;};
+  var n = zero || 0;
+  loop(a.length+1, 2, function(radix){n = muladd(n, radix, a[radix-2]);});
+  return n;
+}
+exports.ntoa = function(n, maxRadix, divmod){
+  divmod = divmod || function(n, d){return {div:Math.floor(n/d), mod:n%d}};
+  var a = Array(maxRadix-1);
+  loop(2, maxRadix, function(radix){
+    var dm = divmod(n, radix);
+    a[radix-2] = dm.mod;
+    n = dm.div;
+  });
+  return a;
+}
+exports.atop = function(a, p){
+  p = p || Array.from(Array(a.length+1).keys());
+  loop(1, a.length, function(i){
+    var j = i-a[i-1], temp = p[i];
+    p[i] = p[j];
+    p[j] = temp;
+  });
+  return p;
+}
+
+exports.pton = function(p, zero, muladd){
+  muladd = muladd || function(n, m, a){return n*m + a;};
+  var n = zero || 0, indexof = Array(p.length), a = Array(p.length-1);
+  p.forEach(function(val, i){indexof[val] = i;});
+  loop(a.length, 1, function(i){
+    p[indexof[i]] = p[i];
+    indexof[p[i]] = indexof[i];
+    n = muladd(n, i+1, i-indexof[i]);
+  });
+  return n;
+}
+exports.ntop = function(n, maxRadix, divmod, p){
+  divmod = divmod || function(n, d){return {div:Math.floor(n/d), mod:n%d}};
+  p = p || Array.from(Array(maxRadix).keys());
+  var a = Array(maxRadix-1);
+  loop(1, a.length, function(i){
+    var dm = divmod(n, i+1);
+    var j = i-dm.mod, temp = p[i];
+    p[i] = p[j];
+    p[j] = temp;
+    n = dm.div;
+  });
+  return p;
+};
+
+exports.test = function(maxMaxRadix, onpass, onfail){
+  var failed = false, factorial = 1;
+  loop(2, maxMaxRadix || 4, function(radix){
+    factorial *= radix;
+    loop(0, factorial-1, function(n){
+      var p = exports.ntop(n, radix);
+      var a = exports.ptoa(p.slice());
+      var n2 = exports.aton(a);
+      var a2 = exports.ntoa(n2, radix);
+      var p2 = exports.atop(a2);
+      var n3 = exports.pton(p.slice());
+      if(!failed && (failed = n!==n2)) (onfail || console.error)({
+        maxRadix: radix,
+        n: n,
+        p: p,
+        n2: n2,
+        a2: a2,
+        p2: p2,
+        n3: n3
+      });
+    });
+  });
+  if(!failed) (onpass || function(){console.log('pass');})();
 }
