@@ -76,7 +76,7 @@ exports.ntoa = function(n, maxRadix, divmod){
   loop(2, maxRadix, function(radix){
     var dm = divmod(n, radix); // divmod is overkill in the last loop, since
     a[radix-2] = dm.mod; //       mod == n if the original n < maxRadix!
-    n = dm.div; //             <- and this is unnecessary in the last loop
+    n = dm.div; //             <- and this is useless
   });
   return a;
 }
