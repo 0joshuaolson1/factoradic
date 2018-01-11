@@ -1,8 +1,8 @@
 # Factoradic
 
-semantic version 1.1.0
+[semantic version](https://semver.org/) [1.1.0](CHANGELOG.md#110-from-100)
 
-Apache 2.0 license
+[Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) [license](LICENSE)
 
 ## Table of Contents
 
@@ -32,11 +32,11 @@ The two functions that return a permutation ([`atop`](#atop) and [`ntop`](#ntop)
 
 Except as documented, Factoradic functions don't mutate their arguments.
 
-Uncomment the [first line](https://github.com/0joshuaolson1/factoradic/blob/v1.1.0/index.js#L1) in `index.js` to make it browser compatible...meaning you can load the functions into an `exports` object in a developer console and play around; I don't know your bundler.
+Uncomment the [first line](index.js#L1) in `index.js` to make it browser compatible...meaning you can load the functions into an `exports` object in a developer console and play around; I don't know your bundler.
 
 ## ptoa
 
-`ptoa(p) -> a` ([source](https://github.com/0joshuaolson1/factoradic/blob/v1.1.0/index.js#L13)) takes a Permutation `p` and returns its corresponding Array `a`.
+`ptoa(p) -> a` ([source](index.js#L13)) takes a Permutation `p` and returns its corresponding Array `a`.
 
 `p` may be modified. To pass in a copy, consider `Array.prototype.slice`.
 
@@ -44,7 +44,7 @@ Example: `ptoa([1, 0]) // [1]`
 
 ## pton
 
-`pton(p[, zero, muladd]) -> n` ([source](https://github.com/0joshuaolson1/factoradic/blob/v1.1.0/index.js#L26)) takes a Permutation `p` and returns its corresponding Number `n`. To make the return value a bigint, the bigint type's zero value `zero` and a multiply-add function `muladd` like
+`pton(p[, zero, muladd]) -> n` ([source](index.js#L26)) takes a Permutation `p` and returns its corresponding Number `n`. To make the return value a bigint, the bigint type's zero value `zero` and a multiply-add function `muladd` like
 
 `function(N, m, a){return N*m + a;}`
 
@@ -58,7 +58,7 @@ Example: `pton([0, 1, 2]) // 0`
 
 ## atop
 
-`atop(a[, p]) -> p'` ([source](https://github.com/0joshuaolson1/factoradic/blob/v1.1.0/index.js#L39)) takes an Array `a` and optional array `p` to modify (Fisher-Yates-Knuth shuffle) and returns their corresponding Permutation `p'`.
+`atop(a[, p]) -> p'` ([source](index.js#L39)) takes an Array `a` and optional array `p` to modify (Fisher-Yates-Knuth shuffle) and returns their corresponding Permutation `p'`.
 
 When provided, `p` refers to the same object as `p'`.
 
@@ -69,7 +69,7 @@ Examples:
 
 ## aton
 
-`aton(a[, zero, muladd]) -> n` ([source](https://github.com/0joshuaolson1/factoradic/blob/v1.1.0/index.js#L49)) takes an Array `a` and returns its corresponding Number `n`. To make the return value a bigint, the bigint type's zero value `zero` and a multiply-add function `muladd` like
+`aton(a[, zero, muladd]) -> n` ([source](index.js#L49)) takes an Array `a` and returns its corresponding Number `n`. To make the return value a bigint, the bigint type's zero value `zero` and a multiply-add function `muladd` like
 
 `function(N, m, a){return N*m + a;}`
 
@@ -81,7 +81,7 @@ Example: `aton([1, 0]) // 1`
 
 ## ntop
 
-`ntop(n[, maxRadix][, p][, divmod]) -> p'` ([source](https://github.com/0joshuaolson1/factoradic/blob/v1.1.0/index.js#L60)) takes a Number `n` and either the size `maxRadix` of the permutation it applies to or an optional array `p` to modify (Fisher-Yates-Knuth shuffle) and returns their corresponding Permutation `p'`. When `n` is a bigint, a combined integer division and modulus function `divmod` like
+`ntop(n[, maxRadix][, p][, divmod]) -> p'` ([source](index.js#L60)) takes a Number `n` and either the size `maxRadix` of the permutation it applies to or an optional array `p` to modify (Fisher-Yates-Knuth shuffle) and returns their corresponding Permutation `p'`. When `n` is a bigint, a combined integer division and modulus function `divmod` like
 
 `function(N, d){return {div:Math.floor(n/d), mod:n%d}}`
 
@@ -103,7 +103,7 @@ Examples:
 
 ## ntoa
 
-`ntoa(n, maxRadix[, divmod]) -> a` ([source](https://github.com/0joshuaolson1/factoradic/blob/v1.1.0/index.js#L73)) takes a Number `n` and the size `maxRadix` of the permutation it applies to and returns its corresponding Array `a`. When `n` is a bigint, a combined integer division and modulus function `divmod` like
+`ntoa(n, maxRadix[, divmod]) -> a` ([source](index.js#L73)) takes a Number `n` and the size `maxRadix` of the permutation it applies to and returns its corresponding Array `a`. When `n` is a bigint, a combined integer division and modulus function `divmod` like
 
 `function(N, d){return {div:Math.floor(n/d), mod:n%d}}`
 
@@ -118,7 +118,7 @@ Examples:
 
 ## test
 
-`test([maxMaxRadix], [onpass], [onfail])` ([source](https://github.com/0joshuaolson1/factoradic/blob/v1.1.0/index.js#L84)), used by [test.js](https://github.com/0joshuaolson1/factoradic/blob/v1.1.0/test.js) and `npm test`, tests that the transformations preserve permutation information. All arguments are optional. Placeholder arguments must be falsy.
+`test([maxMaxRadix], [onpass], [onfail])` ([source](index.js#L84)), used by [test.js](https://github.com/0joshuaolson1/factoradic/blob/v1.1.0/test.js) and `npm test`, tests that the transformations preserve permutation information. All arguments are optional. Placeholder arguments must be falsy.
 
 `maxMaxRadix` defaults to `4`, testing all 2! through 4! permutations.
 
