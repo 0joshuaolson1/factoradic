@@ -18,154 +18,135 @@ Apache 2.0 license
 
 ## Overview
 
-This ES5-compatible Node.js module/package exports functions (and a test)
-providing transformations between three equivalent permutation representations:
+This ES5-compatible Node.js module/package exports functions (and a test) providing transformations between three equivalent permutation representations:
 
-- p: Permutation of builtin ints incrementing from 0 (uints), like (`[1, 0, 2]`)
+- p: Permutation of builtin ints incrementing from 0 (uints), like (`[2, 0, 1]`)
 - a: mixed-radix (factorial number system) builtins Array (`[1, 1]` (base 2, 3))
-- n: uint permutation Number (builtin or bigint) (`442`)
+- n: uint permutation Number (builtin or bigint) (`742` (in base 10))
 
-The four functions that involve Numbers ([`pton`](#pton), [`atop`](#atop),
-[`aton`](#aton), and [`ntop`](#ntop)) accept optional functions necessary to use
-bigint objects of the user's choice. Note that JavaScript uints lose precision
-when greater than `Math.pow(2, 53) (9007199254740992)`, which is between
-`18! (7387354275840000)` and `19!`.
+`p`'s have a minimum length of 2. `a`'s have a minimum length of 1.
 
-The two functions that return a permutation ([`atop`](#atop) and [`ntop`](#ntop))
-can alternatively permute (Fisher-Yates-Knuth shuffle) existing arrays in place.
+The four functions that involve Numbers ([`pton`](#pton), [`atop`](#atop), [`aton`](#aton), and [`ntop`](#ntop)) accept optional functions necessary to use bigint objects of the user's choice. Note that JavaScript uints lose precision when greater than `Math.pow(2, 53) (9007199254740992)`, which is between `18! (7387354275840000)` and `19!`.
+
+The two functions that return a permutation ([`atop`](#atop) and [`ntop`](#ntop)) can alternatively permute (Fisher-Yates-Knuth shuffle) existing arrays in place.
 
 Except as documented, Factoradic functions don't mutate their arguments.
 
-Uncomment the first line in `index.js` to make it browser compatible...meaning
-you can load the functions into an `exports` object in a developer console and
-play around; I don't know your bundler.
+Uncomment the [first line](https://github.com/0joshuaolson1/factoradic/blob/v1.1.0/index.js#L1) in `index.js` to make it browser compatible...meaning you can load the functions into an `exports` object in a developer console and play around; I don't know your bundler.
 
 ## ptoa
 
-[`ptoa(p) -> a`](https://github.com/0joshuaolson1/factoradic/blob/UPDATEME/index.js#L13)
-takes a Permutation `p` and returns its corresponding Array `a`.
+`ptoa(p) -> a` ([source](https://github.com/0joshuaolson1/factoradic/blob/v1.1.0/index.js#L13)) takes a Permutation `p` and returns its corresponding Array `a`.
+
+`p` may be modified. To pass in a copy, consider `Array.prototype.slice`.
 
 Example: `ptoa([1, 0]) // [1]`
 
-`p` is modified. To pass in a copy, consider `Array.prototype.slice`.
-
 ## pton
 
-[`pton(p[, zero, muladd]) -> n`](https://github.com/0joshuaolson1/factoradic/blob/UPDATEME/index.js#L26)`
-takes a Permutation `p` and returns its corresponding Number `n`. To make the
-return value a bigint, `zero` must be provided with the bigint type's zero value
-and `muladd` must be provided with a multiply-add function like
+`pton(p[, zero, muladd]) -> n` ([source](https://github.com/0joshuaolson1/factoradic/blob/v1.1.0/index.js#L26)) takes a Permutation `p` and returns its corresponding Number `n`. To make the return value a bigint, the bigint type's zero value `zero` and a multiply-add function `muladd` like
 
 `function(N, m, a){return N*m + a;}`
 
-`N` is a bigint that `muladd` is free to modify. `m` is a builtin uint between
-`2` and `p.length`, inclusive. `a` is a builtin uint no greater than `m`. A
-bigint must be returned.
+must be provided. `N` is a bigint that `muladd` is free to modify. `m` is a builtin uint between `2` and `p.length`, inclusive. `a` is a builtin uint less than `m`. A bigint must be returned.
+
+`p` may be modified. To pass in a copy, consider `Array.prototype.slice`.
+
+When `muladd` is needed, its implementation determines whether `n` and `zero` reference the same object and whether `zero` may be modified.
 
 Example: `pton([0, 1, 2]) // 0`
 
-`p` is modified. To pass in a copy, consider `Array.prototype.slice`.
-
-When provided, the `muladd` implementation determines whether `n` and `zero`
-reference the same object and whether `zero` is modified.
-
 ## atop
 
-[`atop(a[, p]) -> p'`](https://github.com/0joshuaolson1/factoradic/blob/UPDATEME/index.js#L39)
-takes an Array `a` and optional array `p` to modify (Fisher-Yates-Knuth shuffle)
-and returns their corresponding Permutation `p'`.
-
-Example: `atop([1]) // [1, 0]`
-Example: `atop([1], ['a', 'b']) // ['b', 'a']`
+`atop(a[, p]) -> p'` ([source](https://github.com/0joshuaolson1/factoradic/blob/v1.1.0/index.js#L39)) takes an Array `a` and optional array `p` to modify (Fisher-Yates-Knuth shuffle) and returns their corresponding Permutation `p'`.
 
 When provided, `p` refers to the same object as `p'`.
+
+Examples:
+
+- `atop([1]) // [1, 0]`
+- `atop([1], ['a', 'b']) // ['b', 'a']`
 
 ## aton
 
-[`aton(a[, zero, muladd]) -> n`](https://github.com/0joshuaolson1/factoradic/blob/UPDATEME/index.js#L49)
-takes an Array `a` and returns its corresponding Number `n`. To make the return
-value a bigint, `zero` must be provided with the bigint type's zero value and
-`muladd` must be provided with a multiply-add function like
+`aton(a[, zero, muladd]) -> n` ([source](https://github.com/0joshuaolson1/factoradic/blob/v1.1.0/index.js#L49)) takes an Array `a` and returns its corresponding Number `n`. To make the return value a bigint, the bigint type's zero value `zero` and a multiply-add function `muladd` like
 
 `function(N, m, a){return N*m + a;}`
 
-`N` is a bigint that `muladd` is free to modify. `m` is a builtin uint between
-`2` and `a.length + 1`, inclusive. `a` is a builtin uint no greater than `m`. A
-bigint must be returned.
+must be provided. `N` is a bigint that `muladd` is free to modify. `m` is a builtin uint between `2` and `a.length + 1`, inclusive. `a` is a builtin uint less than `m`. A bigint must be returned.
+
+When `muladd` is needed, its implementation determines whether `n` and `zero` reference the same object and whether `zero` may be modified.
 
 Example: `aton([1, 0]) // 1`
 
-When provided, the `muladd` implementation determines whether `n` and `zero`
-reference the same object and whether `zero` is modified.
-
 ## ntop
 
-[`ntop(n[, maxRadix][, p][, divmod]) -> p'`](https://github.com/0joshuaolson1/factoradic/blob/UPDATEME/index.js#L60)
-takes a Number `n` and either the size `maxRadix` of the permutation it applies
-to or an optional array `p` to modify (Fisher-Yates-Knuth shuffle) and returns
-their corresponding Permutation `p'`. When `n` is a bigint, `divmod` must be
-provided with a combined integer division and modulus function like
+`ntop(n[, maxRadix][, p][, divmod]) -> p'` ([source](https://github.com/0joshuaolson1/factoradic/blob/v1.1.0/index.js#L60)) takes a Number `n` and either the size `maxRadix` of the permutation it applies to or an optional array `p` to modify (Fisher-Yates-Knuth shuffle) and returns their corresponding Permutation `p'`. When `n` is a bigint, a combined integer division and modulus function `divmod` like
 
 `function(N, d){return {div:Math.floor(n/d), mod:n%d}}`
 
-`N` is a bigint that `divmod` is free to modify. `d` is a builtin uint between
-`2` and `maxRadix` (`p.length`), inclusive. `div`'s value must be a bigint.
-`mod`'s value must be a builtin uint.
+must be provided. `N` is a bigint that `divmod` is free to modify. `d` is a builtin uint between `2` and `maxRadix` (`p.length`), inclusive. `div`'s value must be a bigint. `mod`'s value must be a builtin uint.
 
-When providing `p`, or `divmod` without `p`, a falsy argument is ignored.
+When providing `p`, or `divmod` without `p`, unneeded arguments should be falsy.
 
-Example: maxRadix
-Example: falsy
-Example: falsy
+When `divmod` is needed, its implementation determines whether `n` may be
+modified.
 
 When provided, `p` refers to the same object as `p'`.
 
+Examples:
+
+- `ntop(0, 2) // [0, 1]` (0 is one of `maxRadix! = 2!` permutations)
+- `ntop(1, 3) // [1, 0, 2]` (1 is one of `maxRadix! = 3!`permutations)
+- `ntop(1, null, ['a', 'b', 'c']) // ['b', 'a', 'c']` (falsy `maxRadix`)
+- `ntop(0, 2, 0, function(N, d){...}) // [0, 1]` (falsy `p`)
+
 ## ntoa
 
-[`ntoa`](https://github.com/0joshuaolson1/factoradic/blob/UPDATEME/index.js#L73)(number, maxRadix[, divmod]) returns a Number's corresponding mixed radix (factorial number system) Array. The optional divmod function defaults
+`ntoa(n, maxRadix[, divmod]) -> a` ([source](https://github.com/0joshuaolson1/factoradic/blob/v1.1.0/index.js#L73)) takes a Number `n` and the size `maxRadix` of the permutation it applies to and returns its corresponding Array `a`. When `n` is a bigint, a combined integer division and modulus function `divmod` like
 
-  - inputs:
+`function(N, d){return {div:Math.floor(n/d), mod:n%d}}`
 
-    (2) a JS uint `>= 2` specifying the maximum radix
+must be provided. `N` is a bigint that `divmod` is free to modify. `d` is a builtin uint between `2` and `maxRadix` (`p.length`), inclusive. `div`'s value must be a bigint. `mod`'s value must be a builtin uint.
 
-      - e.g. `4` means interpret the first argument in the range `[0, 4!)`
+When `divmod` is needed, its implementation determines whether `n` may be modified.
 
-    (3) the number type's integer divmod function
+Examples:
 
-      - inputs:
+- `ntop(5, 3) // [2, 1]` (5 is one of `3! = 2 * 3` permutations)
+- `ntop(5, 4) // [2, 1, 0]` (5 is one of `4! = 2 * 3 * 4` permutations)
 
-        (1) a uint `<=` the permutation number
+## test
 
-        (2) a JS uint divisor in the range `[2, max radix]`
+`test([maxMaxRadix], [onpass], [onfail])` ([source](https://github.com/0joshuaolson1/factoradic/blob/v1.1.0/index.js#L84)), used by [test.js](https://github.com/0joshuaolson1/factoradic/blob/v1.1.0/test.js) and `npm test`, tests that the transformations preserve permutation information. All arguments are optional. Placeholder arguments must be falsy.
 
-      - output: a map with uint values
+`maxMaxRadix` defaults to `4`, testing all 2! through 4! permutations.
 
-        - 'div' indexes the division result
+`onpass` defaults to `console.log('pass')` to output when the test succeeds.
 
-        - 'mod' indexes the remainder (JS uint)
+`onfail` defaults to `console.error` to output information to reproduce a bug.
 
-  - output: a nonempty array of JS uints where `0 <= a[i] < i+2`
-
-    - e.g. `ntoa(5, 4, divmod)` -> `[1, 2, 0]`, where `1` is base 2 and `0` is base 4
-
-- [`test`](https://github.com/0joshuaolson1/factoradic/blob/master/index.js#L45) tests that the transformations preserve permutation information, but read it yourself:
-
-  - for example code
-
-  - to understand test use (e.g. test.js) and limitations
+A successful test returns `0` (like an exit code). Otherwise, the `onfail` information is returned.
 
 ## Notes
 
 ### Permuting in Stages
 
-Note that atop shuffling starts with lower radices
-E.g. atop([1,2]) can be split as atop([0,2], atop([1,0])), but not commutative with atop([1,0], atop([0,2])).
+`atop` shuffling starts with lower radices:
+
+`atop([1, 2])`
+
+can be split as the equivalent
+
+`atop([0, 2], atop([1, 0]))`
+
+but not as `atop([1, 0], atop([0, 2]))`.
 
 ### Zero Extension
 
 One reason for the particular choice of permutation-number bijection is the 'zero-extensibility property' (please tell me if you may know its actual name):
 
-- `atop([1, 1], [1, 2, 3])` -> `[2, 3, 1]`
-- `atop([1, 1, 0, 0], [1, 2, 3, 4, 5])` -> `[2, 3, 1, 4, 5]`
+- `atop([1, 1], [1, 2, 3])` // `[2, 3, 1]`
+- `atop([1, 1, 0, 0], [1, 2, 3, 4, 5])` // `[2, 3, 1, 4, 5]`
 
 The facts that `4` and `5` are untouched and `1-3`'s new order is independent of maximum radix are analogous to a finite number's implicit leading zeroes.
