@@ -1,6 +1,6 @@
 // var exports = {};
 
-// inclusive bounds
+// inclusive bounds, increments or decrements appropriately
 function loop(i, end, body){
   for(var step = i<end ? 1 : -1; i-end != step; i += step) body(i);
 }
@@ -50,7 +50,7 @@ exports.aton = function(a, zero, muladd){
   var n = zero || 0;
   muladd = muladd || muladdImpl;
 
-  // muladd is overkill in the first loop, but the zero method is better in pton
+  // muladd is overkill in the first loop, but starting from 0 is better in pton
   loop(a.length+1, 2, function(radix){n = muladd(n, radix, a[radix-2]);});
 
   return n;
@@ -82,7 +82,8 @@ exports.ntoa = function(n, maxRadix, divmod){
 }
 
 exports.test = function(maxMaxRadix, onpass, onfail){
-  var failed = false, factorial = 1;
+  var failed = false;
+  var factorial = 1;
   loop(2, maxMaxRadix || 4, function(radix){
     factorial *= radix;
     loop(0, factorial-1, function(n){
@@ -92,7 +93,7 @@ exports.test = function(maxMaxRadix, onpass, onfail){
       var a2 = exports.ntoa(n2, radix);
       var p2 = exports.atop(a2);
       var n3 = exports.pton(p.slice());
-      if(!failed && (failed = n!==n3)) (onfail || console.error)({
+      if(!failed && (failed = n!==n3)) (onfail || console.error)(failed = {
         maxRadix: radix,
         n: n,
         p: p,
@@ -104,5 +105,7 @@ exports.test = function(maxMaxRadix, onpass, onfail){
       });
     });
   });
-  if(!failed) (onpass || function(){console.log('pass');})();
+  if(failed) return failed;
+  (onpass || function(){console.log('pass');})();
+  return 0;
 }
