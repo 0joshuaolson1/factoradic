@@ -107,14 +107,14 @@ Examples:
 
 `function(N, d){return {div:Math.floor(n/d), mod:n%d}}`
 
-must be provided. `N` is a bigint that `divmod` is free to modify. `d` is a builtin uint between `2` and `maxRadix` (`p.length`), inclusive. `div`'s value must be a bigint. `mod`'s value must be a builtin uint.
+must be provided. `N` is a bigint that `divmod` is free to modify. `d` is a builtin uint between `2` and `maxRadix`, inclusive. `div`'s value must be a bigint. `mod`'s value must be a builtin uint.
 
 When `divmod` is needed, its implementation determines whether `n` may be modified.
 
 Examples:
 
-- `ntop(5, 3) // [2, 1]` (5 is one of `3! = 2 * 3` permutations)
-- `ntop(5, 4) // [2, 1, 0]` (5 is one of `4! = 2 * 3 * 4` permutations)
+- `ntop(5, 3) // [1, 2]` (5 is one of `3! = 2 * 3` permutations)
+- `ntop(5, 4) // [1, 2, 0]` (5 is one of `4! = 2 * 3 * 4` permutations)
 
 ## test
 
