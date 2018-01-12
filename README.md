@@ -118,7 +118,7 @@ Examples:
 
 ## test
 
-`test([maxMaxRadix], [onpass], [onfail])` ([source](index.js#L84)), used by [test.js](https://github.com/0joshuaolson1/factoradic/blob/v1.1.0/test.js) and `npm test`, tests that the transformations preserve permutation information. All arguments are optional. Placeholder arguments must be falsy.
+`test([maxMaxRadix], [onpass], [onfail])` ([source](index.js#L84)), used by [test.js](test.js) and `npm test`, tests that the transformations preserve permutation information. All arguments are optional. Placeholder arguments must be falsy.
 
 `maxMaxRadix` defaults to `4`, testing all 2! through 4! permutations.
 
