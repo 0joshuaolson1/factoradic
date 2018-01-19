@@ -6,7 +6,7 @@
 
 ## 1.1.0 from 1.0.0
 
-Added `pton` and `ntop`. Improved documentation. Added `test` return value and failure information.
+Removed ES6 requirement. Added `pton` and `ntop`. Improved documentation. Added `test` return value and failure information.
 
 MAJOR RELEASE, ACTUALLY: Changed `aton` to use a bigint `zero` instead of a `nctor` constuctor.
 
