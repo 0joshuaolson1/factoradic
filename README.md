@@ -20,7 +20,7 @@
 
 This ES5-compatible Node.js module/package exports functions (and a test) providing transformations between three equivalent permutation representations:
 
-- p: Permutation of builtin ints incrementing from 0 (uints), like (`[2, 0, 1]`)
+- p: Permutation of builtin ints incrementing from 0 (uints), like `[2, 0, 1]`
 - a: mixed-radix (factorial number system) builtins Array (`[1, 1]` (base 2, 3))
 - n: uint permutation Number (builtin or bigint) (`742` (in base 10))
 
