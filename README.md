@@ -26,7 +26,7 @@ This ES5-compatible Node.js module/package exports functions (and a test) provid
 
 `p`'s have a minimum length of 2. `a`'s have a minimum length of 1.
 
-The four functions that involve Numbers ([`pton`](#pton), [`atop`](#atop), [`aton`](#aton), and [`ntop`](#ntop)) accept optional functions necessary to use bigint objects of the user's choice. Note that JavaScript uints lose precision when greater than `Math.pow(2, 53) (9007199254740992)`, which is between `18! (7387354275840000)` and `19!`.
+The four functions that involve Numbers ([`pton`](#pton), [`atop`](#atop), [`aton`](#aton), and [`ntop`](#ntop)) accept optional functions necessary to use bigint objects of the user's choice. Note that JavaScript uints lose precision when greater than `Math.pow(2, 53)` (`9007199254740992`, or [`Number.MAX_SAFE_INTEGER`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER)` + 1`), which is between `18! (7387354275840000)` and `19!`.
 
 The two functions that return a permutation ([`atop`](#atop) and [`ntop`](#ntop)) can alternatively permute (Fisher-Yates-Knuth shuffle) existing arrays in place.
 
