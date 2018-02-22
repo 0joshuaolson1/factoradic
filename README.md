@@ -130,6 +130,10 @@ A successful test returns `0` (like an exit code). Otherwise, the `onfail` infor
 
 ## Notes
 
+### Number representations are not unique
+
+Notice that `0` is equivalent to `[0, 1]` and `['a', 'b', 'c'], depending on context.
+
 ### Permuting in Stages
 
 `atop` shuffling starts with lower radices:
