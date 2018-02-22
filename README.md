@@ -132,7 +132,7 @@ A successful test returns `0` (like an exit code). Otherwise, the `onfail` infor
 
 ### Number representations are not unique
 
-Notice that `0` is equivalent to `[0, 1]` and `['a', 'b', 'c'], depending on context.
+Notice that `0` is equivalent to `[0, 1]` and `['a', 'b', 'c']`, depending on context.
 
 ### Permuting in stages
 
