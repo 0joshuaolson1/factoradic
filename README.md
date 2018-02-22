@@ -38,7 +38,7 @@ Uncomment the [first line](index.js#L1) in `index.js` to make it browser compati
 
 `ptoa(p) -> a` ([source](index.js#L13)) takes a Permutation `p` and returns its corresponding Array `a`.
 
-`p` may be modified. To pass in a copy, consider `Array.prototype.slice`.
+`p` may be modified. To pass in a copy, consider [`Array.prototype.slice`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice).
 
 Example: `ptoa([1, 0]) // [1]`
 
@@ -50,7 +50,7 @@ Example: `ptoa([1, 0]) // [1]`
 
 must be provided. `N` is a bigint that `muladd` is free to modify. `m` is a builtin uint between `2` and `p.length`, inclusive. `a` is a builtin uint less than `m`. A bigint must be returned.
 
-`p` may be modified. To pass in a copy, consider `Array.prototype.slice`.
+`p` may be modified. To pass in a copy, consider [`Array.prototype.slice`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice).
 
 When `muladd` is needed, its implementation determines whether `n` and `zero` reference the same object and whether `zero` may be modified.
 
