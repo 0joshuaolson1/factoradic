@@ -134,7 +134,7 @@ A successful test returns `0` (like an exit code). Otherwise, the `onfail` infor
 
 Notice that `0` is equivalent to `[0, 1]` and `['a', 'b', 'c'], depending on context.
 
-### Permuting in Stages
+### Permuting in stages
 
 `atop` shuffling starts with lower radices:
 
@@ -146,7 +146,7 @@ can be split as the equivalent
 
 but not as `atop([1, 0], atop([0, 2]))`.
 
-### Zero Extension
+### Zero extension
 
 One reason for the particular choice of permutation-number bijection is the 'zero-extensibility property' (please tell me if you may know its actual name):
 
