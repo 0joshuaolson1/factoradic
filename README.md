@@ -1,6 +1,6 @@
 # Factoradic
 
-[semantic version](https://semver.org/) [1.1.0](CHANGELOG.md#110-from-100)
+[semantic version](https://semver.org/) [2.0.0](CHANGELOG.md#200-from-110)
 
 [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) [license](LICENSE)
 
