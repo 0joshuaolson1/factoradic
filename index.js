@@ -5,7 +5,7 @@ function loop(i, end, body){
   for(var step = i<end ? 1 : -1; i-end != step; i += step) body(i);
 }
 
-exports.loop = loop; // just for you; no need to thank
+function P(l){return Array.apply(0, {length:l}).map(function(_, i){return i;});}
 
 function muladdImpl(n, m, a){return n*m + a;};
 function divmodImpl(n, d){return {div:Math.floor(n/d), mod:n%d}};
@@ -37,7 +37,7 @@ exports.pton = function(p, zero, muladd){
 }
 
 exports.atop = function(a, p){
-  p = p || Array.from(Array(a.length+1).keys());
+  p = p || P(a.length+1);
   loop(1, a.length, function(i){
     var j = i-a[i-1], temp = p[i];
     p[i] = p[j];
@@ -57,9 +57,9 @@ exports.aton = function(a, zero, muladd){
 }
 
 // ntoa and atop combined with a fused loop and no intermediate a
-exports.ntop = function(n, maxRadix, p, divmod){
+exports.ntop = function(n, p, divmod){
   divmod = divmod || divmodImpl;
-  p = p || Array.from(Array(maxRadix).keys());
+  if(!Array.isArray(p)) p = P(p);
   loop(1, p.length-1, function(i){
     var dm = divmod(n, i+1);
     var j = i-dm.mod, temp = p[i];
@@ -74,9 +74,9 @@ exports.ntoa = function(n, maxRadix, divmod){
   divmod = divmod || divmodImpl;
   var a = Array(maxRadix-1);
   loop(2, maxRadix, function(radix){
-    var dm = divmod(n, radix); // divmod is overkill in the last loop, since
-    a[radix-2] = dm.mod; //       mod == n if the original n < maxRadix!
-    n = dm.div; //             <- and this is useless
+    var dm = divmod(n, radix);
+    a[radix-2] = dm.mod;
+    n = dm.div; // unnecessary in the last loop
   });
   return a;
 }
