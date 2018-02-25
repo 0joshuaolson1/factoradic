@@ -26,7 +26,7 @@ This ES5-compatible Node.js module/package exports functions (and a test) provid
 
 `p`'s have a minimum length of 2. `a`'s have a minimum length of 1.
 
-The four functions that involve Numbers ([`pton`](#pton), [`atop`](#atop), [`aton`](#aton), and [`ntop`](#ntop)) accept optional functions necessary to use bigint objects of the user's choice. Note that JavaScript uints lose precision when greater than `Math.pow(2, 53)` (`9007199254740992`, or [`Number.MAX_SAFE_INTEGER`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER)` + 1`), which is between `18! (7387354275840000)` and `19!`.
+The four functions that involve Numbers ([`pton`](#pton), [`atop`](#atop), [`aton`](#aton), and [`ntop`](#ntop)) accept functions for handling bigint objects of the user's choice. Note that JavaScript uints lose precision when greater than `Math.pow(2, 53)` (`9007199254740992`), which is between `18! (6402373705728000)` and `19!`.
 
 The two functions that return a permutation ([`atop`](#atop) and [`ntop`](#ntop)) can alternatively permute (Fisher-Yates-Knuth shuffle) existing arrays in place.
 
@@ -81,25 +81,24 @@ Example: `aton([1, 0]) // 1`
 
 ## ntop
 
-`ntop(n[, maxRadix][, p][, divmod]) -> p'` ([source](index.js#L60)) takes a Number `n` and either the size `maxRadix` of the permutation it applies to or an optional array `p` to modify (Fisher-Yates-Knuth shuffle) and returns their corresponding Permutation `p'`. When `n` is a bigint, a combined integer division and modulus function `divmod` like
+`ntop(n, maxRadix OR p[, divmod]) -> p'` ([source](index.js#L60)) takes a Number `n` and either the size `maxRadix` of the permutation it applies to or an array `p` to modify (Fisher-Yates-Knuth shuffle) and returns their corresponding Permutation `p'`. When `n` is a bigint, a combined integer division and modulus function `divmod` like
 
 `function(N, d){return {div:Math.floor(n/d), mod:n%d}}`
 
-must be provided. `N` is a bigint that `divmod` is free to modify. `d` is a builtin uint between `2` and `maxRadix` (`p.length`), inclusive. `div`'s value must be a bigint. `mod`'s value must be a builtin uint.
+must be provided. `N` is a bigint that `divmod` is free to modify. `d` is a builtin uint between `2` and (`maxRadix` OR `p.length`), inclusive. `div`'s value must be a bigint. `mod`'s value must be a builtin uint.
 
-When providing `p`, or `divmod` without `p`, unneeded arguments should be falsy.
+When `divmod` is needed, its implementation determines whether `n` may be modified.
 
-When `divmod` is needed, its implementation determines whether `n` may be
-modified.
+If `n` is greater than its expected range, it wraps back into that range (see Examples).
 
 When provided, `p` refers to the same object as `p'`.
 
 Examples:
 
-- `ntop(0, 2) // [0, 1]` (0 is one of `maxRadix! = 2!` permutations)
-- `ntop(1, 3) // [1, 0, 2]` (1 is one of `maxRadix! = 3!`permutations)
-- `ntop(1, null, ['a', 'b', 'c']) // ['b', 'a', 'c']` (falsy `maxRadix`)
-- `ntop(0, 2, 0, function(N, d){...}) // [0, 1]` (falsy `p`)
+- `ntop(0, 2) // [0, 1]` (`0` is among `maxRadix! = 2!` permutations)
+- `ntop(7, 3) // [1, 0, 2]` (`7` wraps to `1`, among `maxRadix! = 3!`permutations)
+- `ntop(1, ['a', 'b', 'c']) // ['b', 'a', 'c']` (using `p`)
+- `ntop(4, 2, function(N, d){...}) // [0, 1]` (using `maxRadix`; `4` wraps to `0`)
 
 ## ntoa
 
@@ -111,10 +110,12 @@ must be provided. `N` is a bigint that `divmod` is free to modify. `d` is a buil
 
 When `divmod` is needed, its implementation determines whether `n` may be modified.
 
+If `n` is greater than its expected range, it wraps back into that range (see Examples).
+
 Examples:
 
-- `ntop(5, 3) // [1, 2]` (5 is one of `3! = 2 * 3` permutations)
-- `ntop(5, 4) // [1, 2, 0]` (5 is one of `4! = 2 * 3 * 4` permutations)
+- `ntop(5, 4) // [1, 2, 0]` (`5` is among `4! = 2 * 3 * 4` permutations)
+- `ntop(17, 3) // [1, 2]` (`17` wraps to `5`, among `3! = 2 * 3` permutations)
 
 ## test
 
@@ -132,7 +133,7 @@ A successful test returns `0` (like an exit code). Otherwise, the `onfail` infor
 
 ### Number representations are not unique
 
-Notice that `0` is equivalent to `[0, 1]` and `['a', 'b', 'c']`, depending on use (`p`) or context (`maxRadix`).
+Besides the wrapping support in [`ntop`](#ntop) and [`ntoa`](#ntoa), notice that `0` is equivalent to `[0, 1]` and `['a', 'b', 'c']`, depending on use (`p`) or context (`maxRadix`).
 
 ### Permuting in stages
 
