@@ -60,7 +60,7 @@ Example: `pton([0, 1, 2]) // 0`
 
 `atop(a[, p]) -> p'` ([source](index.js#L39)) takes an Array `a` and optional array `p` to modify (Fisher-Yates-Knuth shuffle) and returns their corresponding Permutation `p'`.
 
-When provided, `p` refers to the same object as `p'`.
+When provided, `p` refers to the same object as `p'`. To use a copy of `p` instead, consider [`Array.prototype.slice`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice).
 
 Examples:
 
@@ -91,7 +91,7 @@ When `divmod` is needed, its implementation determines whether `n` may be modifi
 
 If `n` is greater than its expected range, it wraps back into that range (see Examples).
 
-When provided, `p` refers to the same object as `p'`.
+When provided, `p` refers to the same object as `p'`.  To use a copy of `p` instead, consider [`Array.prototype.slice`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice).
 
 Examples:
 
