@@ -1,8 +1,8 @@
 // var exports = {};
 
 // inclusive bounds, increments or decrements appropriately
-function loop(i, end, body){
-  for(var step = i<end ? 1 : -1; i-end != step; i += step) body(i);
+function loop(i, end, body, step){
+  for(end += (step = i<end ? 1 : -1); i != end; i += step) body(i);
 }
 
 function P(l){return Array.apply(0, {length:l}).map(function(_, i){return i;});}
