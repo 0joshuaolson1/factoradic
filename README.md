@@ -114,8 +114,8 @@ If `n` is greater than its expected range, it wraps back into that range (see Ex
 
 Examples:
 
-- `ntop(5, 4) // [1, 2, 0]` (`5` is among `4! = 2 * 3 * 4` permutations)
-- `ntop(17, 3) // [1, 2]` (`17` wraps to `5`, among `3! = 2 * 3` permutations)
+- `ntoa(5, 4) // [1, 2, 0]` (`5` is among `4! = 2 * 3 * 4` permutations)
+- `ntoa(17, 3) // [1, 2]` (`17` wraps to `5`, among `3! = 2 * 3` permutations)
 
 ## test
 
