@@ -1,12 +1,6 @@
-// var exports = {};
+// var module = {}; var exports = {};
 
-// inclusive bounds, increments or decrements appropriately
-function loop(i, end, body, step){
-  for(end += (step = i<end ? 1 : -1); i != end; i += step) body(i);
-}
-
-function P(l){return Array.apply(0, {length:l}).map(function(_, i){return i;});}
-
+function P(l){for(var a = Array(l); a[--l] = l;); return a;}
 function muladdImpl(n, m, a){return n*m + a;};
 function divmodImpl(n, d){return {div:Math.floor(n/d), mod:n%d}};
 
@@ -14,11 +8,11 @@ exports.ptoa = function(p){
   var indexof = Array(p.length);
   p.forEach(function(val, i){indexof[val] = i;});
   var a = Array(p.length-1);
-  loop(a.length, 1, function(i){
+  for(var i = a.length; i > 0; i--){
     p[indexof[i]] = p[i]; // unnecessary in the last 2 loops
     indexof[p[i]] = indexof[i]; // unnecessary in the last loop
     a[i-1] = i-indexof[i];
-  });
+  }
   return a;
 }
 
@@ -28,31 +22,31 @@ exports.pton = function(p, zero, muladd){
   muladd = muladd || muladdImpl;
   var indexof = Array(p.length);
   p.forEach(function(val, i){indexof[val] = i;});
-  loop(p.length-1, 1, function(i){
+  for(var i = p.length-1; i > 0; i--){
     p[indexof[i]] = p[i];
     indexof[p[i]] = indexof[i];
     n = muladd(n, i+1, i-indexof[i]);
-  });
+  }
   return n;
 }
 
 exports.atop = function(a, p){
   p = p || P(a.length+1);
-  loop(1, a.length, function(i){
+  for(var i = 1; i <= a.length; i++){
     var j = i-a[i-1], temp = p[i];
     p[i] = p[j];
     p[j] = temp;
-  });
+  }
   return p;
 }
 
 exports.aton = function(a, zero, muladd){
   var n = zero || 0;
   muladd = muladd || muladdImpl;
-
   // muladd is overkill in the first loop, but starting from 0 is better in pton
-  loop(a.length+1, 2, function(radix){n = muladd(n, radix, a[radix-2]);});
-
+  for(var radix = a.length+1; radix > 1; radix--){
+    n = muladd(n, radix, a[radix-2]);
+  }
   return n;
 }
 
@@ -60,33 +54,34 @@ exports.aton = function(a, zero, muladd){
 exports.ntop = function(n, p, divmod){
   divmod = divmod || divmodImpl;
   if(!Array.isArray(p)) p = P(p);
-  loop(1, p.length-1, function(i){
+  for(var i = 1; i < p.length; i++){
     var dm = divmod(n, i+1);
     var j = i-dm.mod, temp = p[i];
     p[i] = p[j];
     p[j] = temp;
     n = dm.div;
-  });
+  }
   return p;
 };
 
 exports.ntoa = function(n, maxRadix, divmod){
   divmod = divmod || divmodImpl;
   var a = Array(maxRadix-1);
-  loop(2, maxRadix, function(radix){
+  for(var radix = 2; radix <= maxRadix; radix++){
     var dm = divmod(n, radix);
     a[radix-2] = dm.mod;
     n = dm.div; // unnecessary in the last loop
-  });
+  }
   return a;
 }
 
 exports.test = function(maxMaxRadix, onpass, onfail){
+  maxMaxRadix = maxMaxRadix || 4;
   var failed = false;
   var factorial = 1;
-  loop(2, maxMaxRadix || 4, function(radix){
+  for(var radix = 2; radix <= maxMaxRadix, radix++){
     factorial *= radix;
-    loop(0, factorial-1, function(n){
+    for(var n = 0; n < factorial; n++){
       var p = exports.ntop(n, radix);
       var a = exports.ptoa(p.slice());
       var n2 = exports.aton(a);
@@ -103,8 +98,8 @@ exports.test = function(maxMaxRadix, onpass, onfail){
         p2: p2,
         n3: n3
       });
-    });
-  });
+    }
+  }
   if(failed) return failed;
   (onpass || function(){console.log('pass');})();
   return 0;
