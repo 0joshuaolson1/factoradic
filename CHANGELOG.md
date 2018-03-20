@@ -2,8 +2,21 @@
 
 ## Table of Contents
 
+- [2.0.2 from 2.0.1](#201-from-200)
+- [2.0.1 from 2.0.0](#201-from-200)
 - [2.0.0 from 1.1.0](#200-from-110)
 - [1.1.0 from 1.0.0](#110-from-100)
+
+## 2.0.2 from 2.0.1
+
+Fixed issues:
+
+- https://github.com/0joshuaolson1/factoradic/issues/28
+- https://github.com/0joshuaolson1/factoradic/issues/29
+
+## 2.0.1 from 2.0.0
+
+Documentation fixes
 
 ## 2.0.0 from 1.1.0
 
