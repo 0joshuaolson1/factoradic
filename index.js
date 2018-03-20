@@ -79,7 +79,7 @@ exports.test = function(maxMaxRadix, onpass, onfail){
   maxMaxRadix = maxMaxRadix || 4;
   var failed = false;
   var factorial = 1;
-  for(var radix = 2; radix <= maxMaxRadix, radix++){
+  for(var radix = 2; radix <= maxMaxRadix; radix++){
     factorial *= radix;
     for(var n = 0; n < factorial; n++){
       var p = exports.ntop(n, radix);
