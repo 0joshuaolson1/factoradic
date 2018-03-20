@@ -1,5 +1,5 @@
-// var module = {}; var exports = {};
-
+// var exports = {};
+(function(){//IIFE to keep these 3 functions local
 function P(l){for(var a = Array(l); a[--l] = l;); return a;}
 function muladdImpl(n, m, a){return n*m + a;};
 function divmodImpl(n, d){return {div:Math.floor(n/d), mod:n%d}};
@@ -104,3 +104,4 @@ exports.test = function(maxMaxRadix, onpass, onfail){
   (onpass || function(){console.log('pass');})();
   return 0;
 }
+})()//IIFE
