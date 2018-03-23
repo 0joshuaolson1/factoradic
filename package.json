@@ -1,6 +1,6 @@
 {
   "name": "factoradic",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Invertible transformations on permutation representations, including an RNG-free in-place Fisher-Yates-Knuth shuffle",
   "main": "index.js",
   "scripts": {
