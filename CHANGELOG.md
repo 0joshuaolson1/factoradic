@@ -2,11 +2,16 @@
 
 ## Table of Contents
 
+- [2.0.4 from 2.0.3](#204-from-203)
 - [2.0.3 from 2.0.2](#203-from-202)
 - [2.0.2 from 2.0.1](#201-from-200)
 - [2.0.1 from 2.0.0](#201-from-200)
 - [2.0.0 from 1.1.0](#200-from-110)
 - [1.1.0 from 1.0.0](#110-from-100)
+
+## 2.0.4 from 2.0.3
+
+Fix a [list in the readme](https://github.com/0joshuaolson1/factoradic/commit/7480d11307c0767a869f1a5f4431b2f0009952fc).
 
 ## 2.0.3 from 2.0.2
 
