@@ -22,7 +22,7 @@ This ES5-compatible Node.js module/package exports functions (and a test) provid
 
 `p`'s have a minimum length of 2. `a`'s have a minimum length of 1.
 
-The four functions that involve Numbers ([`pton`](#pton), [`aton`](#aton), [`ntop`](#ntop), and [`ntoa`](#ntoa)) accept functions for handling bigint objects of the user's choice. Note that JavaScript uints lose precision when greater than `Math.pow(2, 53)` (`9007199254740992`), which is between `18! (6402373705728000)` and `19!`.
+The four functions that involve Numbers ([`pton`](#pton), [`aton`](#aton), [`ntop`](#ntop), and [`ntoa`](#ntoa)) accept functions for handling bigint objects of the user's choice. Note that JavaScript uints lose precision when greater than `Math.pow(2, 53)` (`9007199254740992`), which is between `18!` (`6402373705728000`) and `19!`.
 
 The two functions that return a permutation ([`atop`](#atop) and [`ntop`](#ntop)) can alternatively permute (Fisher-Yates-Knuth shuffle) existing arrays in place.
 
@@ -79,7 +79,7 @@ Example: `aton([1, 0]) // 1`
 
 `ntop(n, maxRadix OR p[, divmod]) -> p'` ([source](index.js#L54)) takes a Number `n` and either the size `maxRadix` of the permutation it applies to or an array `p` to modify (Fisher-Yates-Knuth shuffle) and returns their corresponding Permutation `p'`. When `n` is a bigint, a combined integer division and modulus function `divmod` like
 
-`function(N, d){return {div:Math.floor(n/d), mod:n%d}}`
+`function(N, d){return {div:Math.floor(N/d), mod:N%d}}`
 
 must be provided. `N` is a bigint that `divmod` is free to modify. `d` is a builtin uint between `2` and (`maxRadix` OR `p.length`), inclusive. `div`'s value must be a bigint. `mod`'s value must be a builtin uint.
 
@@ -100,7 +100,7 @@ Examples:
 
 `ntoa(n, maxRadix[, divmod]) -> a` ([source](index.js#L67)) takes a Number `n` and the size `maxRadix` of the permutation it applies to and returns its corresponding Array `a`. When `n` is a bigint, a combined integer division and modulus function `divmod` like
 
-`function(N, d){return {div:Math.floor(n/d), mod:n%d}}`
+`function(N, d){return {div:Math.floor(N/d), mod:N%d}}`
 
 must be provided. `N` is a bigint that `divmod` is free to modify. `d` is a builtin uint between `2` and `maxRadix`, inclusive. `div`'s value must be a bigint. `mod`'s value must be a builtin uint.
 
